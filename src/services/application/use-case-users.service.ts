@@ -1,7 +1,7 @@
 import {injectable, /* inject, */ BindingScope} from '@loopback/core';
 
 @injectable({scope: BindingScope.TRANSIENT})
-export class UsersService {
+export class UseCaseUsersService {
   constructor(/* Add @inject to inject parameters */) {}
 
   /*

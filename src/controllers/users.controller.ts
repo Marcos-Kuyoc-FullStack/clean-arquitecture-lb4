@@ -1,3 +1,4 @@
+import { service } from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -18,12 +19,12 @@ import {
   response,
 } from '@loopback/rest';
 import {Users} from '../models';
-import {UsersRepository} from '../repositories';
+import { IUserInterface } from '../services/domain/users.interface';
+import { UsersService } from '../services/domain/users.service';
 
 export class UsersController {
   constructor(
-    @repository(UsersRepository)
-    public usersRepository : UsersRepository,
+    @service(UsersService) private userService: IUserInterface
   ) {}
 
   @post('/users')
@@ -44,7 +45,7 @@ export class UsersController {
     })
     users: Omit<Users, 'id'>,
   ): Promise<Users> {
-    return this.usersRepository.create(users);
+    return this.userService.create(users);
   }
 
   @get('/users/count')
@@ -55,7 +56,7 @@ export class UsersController {
   async count(
     @param.where(Users) where?: Where<Users>,
   ): Promise<Count> {
-    return this.usersRepository.count(where);
+    return this.userService.count(where);
   }
 
   @get('/users')
@@ -73,7 +74,7 @@ export class UsersController {
   async find(
     @param.filter(Users) filter?: Filter<Users>,
   ): Promise<Users[]> {
-    return this.usersRepository.find(filter);
+    return this.userService.find(filter);
   }
 
   @patch('/users')
@@ -92,7 +93,7 @@ export class UsersController {
     users: Users,
     @param.where(Users) where?: Where<Users>,
   ): Promise<Count> {
-    return this.usersRepository.updateAll(users, where);
+    return this.userService.updateAll(users, where);
   }
 
   @get('/users/{id}')
@@ -108,7 +109,7 @@ export class UsersController {
     @param.path.number('id') id: number,
     @param.filter(Users, {exclude: 'where'}) filter?: FilterExcludingWhere<Users>
   ): Promise<Users> {
-    return this.usersRepository.findById(id, filter);
+    return this.userService.findById(id, filter);
   }
 
   @patch('/users/{id}')
@@ -126,7 +127,7 @@ export class UsersController {
     })
     users: Users,
   ): Promise<void> {
-    await this.usersRepository.updateById(id, users);
+    await this.userService.updateById(id, users);
   }
 
   @put('/users/{id}')
@@ -137,7 +138,7 @@ export class UsersController {
     @param.path.number('id') id: number,
     @requestBody() users: Users,
   ): Promise<void> {
-    await this.usersRepository.replaceById(id, users);
+    await this.userService.replaceById(id, users);
   }
 
   @del('/users/{id}')
@@ -145,6 +146,6 @@ export class UsersController {
     description: 'Users DELETE success',
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.usersRepository.deleteById(id);
+    await this.userService.deleteById(id);
   }
 }
