@@ -1,4 +1,4 @@
-import { service } from '@loopback/core';
+import { inject, service } from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -19,12 +19,15 @@ import {
   response,
 } from '@loopback/rest';
 import {Users} from '../models';
-import { IUserInterface } from '../services/domain/users.interface';
-import { UsersService } from '../services/domain/users.service';
+import { IUserServiceInterface } from '../services/domain/users/users.service.interface';
+import { UsersService } from '../services/domain/users/users.service';
+import { IEmailService } from '../adapters/email-service/email-service.interface';
+import { AddNewUserService } from '../services/usecases/users';
 
 export class UsersController {
   constructor(
-    @service(UsersService) private userService: IUserInterface
+    @service(UsersService) private userService: IUserServiceInterface,
+    @inject('email-service') public emailService: IEmailService
   ) {}
 
   @post('/users')
@@ -45,7 +48,8 @@ export class UsersController {
     })
     users: Omit<Users, 'id'>,
   ): Promise<Users> {
-    return this.userService.create(users);
+    const newUser = new AddNewUserService(this.userService, this.emailService)
+    return newUser.execute(users);
   }
 
   @get('/users/count')

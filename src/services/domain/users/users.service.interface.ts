@@ -1,7 +1,7 @@
 import { Count, Filter, FilterExcludingWhere, Where } from "@loopback/repository";
-import { Users } from "../../models/users.model";
+import { Users } from "../../../models/users.model";
 
-export interface IUserInterface {
+export interface IUserServiceInterface {
   create(users: Omit<Users, 'id'>,): Promise<Users>;
   count(where?: Where<Users>): Promise<Count>;
   find(filter?: Filter<Users>): Promise<Users[]>;

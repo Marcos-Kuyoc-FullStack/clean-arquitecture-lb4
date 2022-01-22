@@ -6,6 +6,7 @@ export class Users extends Entity {
     type: 'number',
     id: true,
     generated: true,
+    required: false,
   })
   id?: number;
 
@@ -18,6 +19,21 @@ export class Users extends Entity {
   @property({
     type: 'string',
     required: true,
+    index: {
+      unique: true
+    },
+    jsonSchema: {
+      type: 'string',
+      format: 'email',
+      uniqueItems: true,
+      minLength: 5,
+      maxLength: 50,
+      errorMessage: {
+        minLength: 'Email should be at least 5 characters.',
+        maxLength: 'Email should not exceed 50 characters.',
+        format: 'El formato no coincide.',
+      }
+    },
   })
   email: string;
 

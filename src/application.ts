@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import { NodeMailerEmail } from './adapters/email-service/nodemailer-email';
 
 export {ApplicationConfig};
 
@@ -40,5 +41,8 @@ export class ApiApplication extends BootMixin(
         nested: true,
       },
     };
+
+    // Inyectar dependencias
+    this.bind('email-service').toClass(NodeMailerEmail)
   }
 }

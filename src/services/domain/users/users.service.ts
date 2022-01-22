@@ -1,19 +1,28 @@
-import {injectable, /* inject, */ BindingScope} from '@loopback/core';
+import {injectable, BindingScope} from '@loopback/core';
 import { Count, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository';
 import { HttpErrors } from '@loopback/rest';
-import { Users } from '../../models/users.model';
-import { UsersRepository } from '../../repositories/users.repository';
-import { IUserInterface } from './users.interface';
+import { Users } from '../../../models/users.model';
+import { UsersRepository } from '../../../repositories/users.repository';
+import { InvalidParamError } from '../errors/invalid-param.error';
+import { PasswordStrong } from './password-strong';
+import { IUserServiceInterface } from './users.service.interface';
 
 @injectable({scope: BindingScope.TRANSIENT})
-export class UsersService implements IUserInterface{
+export class UsersService implements IUserServiceInterface {
   constructor(@repository(UsersRepository) public usersRepository : UsersRepository) {}
 
-  async create(users: Omit<Users, 'id'>,): Promise<Users>{
+  async create(users: Omit<Users, 'id'>): Promise<Users> {
     try {
+      //Valida que la contrase sea fuerte
+      const passwordStrong = PasswordStrong.create(users.password);
+
+      if (passwordStrong instanceof InvalidParamError) {
+        throw new HttpErrors.BadRequest(passwordStrong.error)
+      }
+
       return await this.usersRepository.create(users);    
     } catch (error) {
-      throw new HttpErrors.BadRequest(`Imposible guardar en la DB ${error.message}`)
+      throw new HttpErrors.BadRequest(`Imposible guardar en la DB: ${error.message}`)
     }
   }
   
@@ -21,7 +30,7 @@ export class UsersService implements IUserInterface{
     try {
       return await this.usersRepository.count(where);
     } catch (error) {
-      throw new HttpErrors.BadRequest(`Imposible guardar en la DB ${error.message}`)
+      throw new HttpErrors.BadRequest(`Imposible guardar en la DB: ${error.message}`)
     }
   }
   

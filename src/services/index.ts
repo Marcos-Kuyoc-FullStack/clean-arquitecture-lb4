@@ -1,2 +1,2 @@
-export * from './domain/users.service';
-export * from './application/use-case-users.service';
+export * from './domain/users/users.service';
+export * from './usecases/users/add-new-user.service';
