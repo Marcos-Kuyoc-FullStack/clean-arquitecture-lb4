@@ -3,12 +3,12 @@ import { HttpErrors } from '@loopback/rest';
 import { UsersService } from '../..';
 import { IEmailService } from '../../../adapters/email-service/email-service.interface';
 import { Users } from '../../../models/users.model';
-import { IUserServiceInterface } from '../../domain/users/users.service.interface';
+import { IUserService } from '../../domain/users/users.service.interface';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class AddNewUserService {
   constructor(
-    @service(UsersService) private userService: IUserServiceInterface,
+    @service(UsersService) private userService: IUserService,
     @inject('email-service') public emailService: IEmailService
   ) {}
 
