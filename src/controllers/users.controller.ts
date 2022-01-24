@@ -47,6 +47,7 @@ export class UsersController {
     })
     users: Omit<Users, 'id'>,
   ): Promise<Users> {
+    // llamar al caso de uso
     const newUser = new AddNewUserService(this.userService, this.emailService)
     return newUser.execute(users);
   }

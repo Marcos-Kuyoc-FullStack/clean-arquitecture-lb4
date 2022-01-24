@@ -14,6 +14,7 @@ export class UsersService implements ICrudService<Users> {
   async create(users: Omit<Users, 'id'>): Promise<Users> {
     try {
       //Valida que la contrase sea fuerte
+      // Value Object
       const passwordStrong = PasswordStrong.create(users.password);
 
       if (passwordStrong instanceof InvalidParamError) {

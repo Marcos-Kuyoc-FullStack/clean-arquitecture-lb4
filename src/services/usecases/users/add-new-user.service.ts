@@ -30,7 +30,7 @@ export class AddNewUserService {
   * Improvement:
   *   Aplicar un rollback del usuario cuando el email no se envie.
   */
-  async execute(payload: Omit<Users, 'id'>): Promise<Users> {
+  async executeV1(payload: Omit<Users, 'id'>): Promise<Users> {
     try {
       const user = await this.userService.create(payload);
   
@@ -49,7 +49,7 @@ export class AddNewUserService {
     }
   }
 
-  async executeV2(payload: Omit<Users, 'id'>): Promise<Users> {
+  async execute(payload: Omit<Users, 'id'>): Promise<Users> {
     let user: Users;
 
     try {
