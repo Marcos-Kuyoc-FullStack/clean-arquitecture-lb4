@@ -4,7 +4,6 @@ import {
   CountSchema,
   Filter,
   FilterExcludingWhere,
-  repository,
   Where,
 } from '@loopback/repository';
 import {
@@ -19,14 +18,14 @@ import {
   response,
 } from '@loopback/rest';
 import {Users} from '../models';
-import { IUserServiceInterface } from '../services/domain/users/users.service.interface';
+import { ICrudService } from '../services/domain/users/users.service.interface';
 import { UsersService } from '../services/domain/users/users.service';
 import { IEmailService } from '../adapters/email-service/email-service.interface';
 import { AddNewUserService } from '../services/usecases/users';
 
 export class UsersController {
   constructor(
-    @service(UsersService) private userService: IUserServiceInterface,
+    @service(UsersService) private userService: ICrudService<Users>,
     @inject('email-service') public emailService: IEmailService
   ) {}
 

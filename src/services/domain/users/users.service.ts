@@ -5,10 +5,10 @@ import { Users } from '../../../models/users.model';
 import { UsersRepository } from '../../../repositories/users.repository';
 import { InvalidParamError } from '../errors/invalid-param.error';
 import { PasswordStrong } from './password-strong';
-import { IUserServiceInterface } from './users.service.interface';
+import { ICrudService } from './users.service.interface';
 
 @injectable({scope: BindingScope.TRANSIENT})
-export class UsersService implements IUserServiceInterface {
+export class UsersService implements ICrudService<Users> {
   constructor(@repository(UsersRepository) public usersRepository : UsersRepository) {}
 
   async create(users: Omit<Users, 'id'>): Promise<Users> {
