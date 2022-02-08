@@ -36,7 +36,6 @@ export class AddNewUserService {
     try {
       user = await this.userService.create(payload);
     } catch (error) {
-      //console.log(`[addNewUser] ${error.message}`);
       throw new HttpErrors.BadRequest(error.message);
     }
 

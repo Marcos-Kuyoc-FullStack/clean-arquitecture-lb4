@@ -18,7 +18,7 @@ export class UsersService implements ICrudService<Users> {
 
       return await this.usersRepository.create(users);    
     } catch (error) {
-      throw new HttpErrors.BadRequest(`Imposible guardar en la DB: ${error.message}`)
+      throw new HttpErrors.BadRequest(`Imposible guardar en la DB - ${error.message}`)
     }
   }
   
