@@ -3,9 +3,9 @@ import { Count, Filter, FilterExcludingWhere, repository, Where } from '@loopbac
 import { HttpErrors } from '@loopback/rest';
 import { Users } from '../../../models/users.model';
 import { UsersRepository } from '../../../repositories/users.repository';
+import { ICrudService } from '../../shared/domain/ICrudService.interface';
 import { InvalidParamsError } from '../../shared/domain/value-object/invalid-params.error';
 import { PasswordStrong } from './password-strong';
-import { ICrudService } from './users.service.interface';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class UsersService implements ICrudService<Users> {
