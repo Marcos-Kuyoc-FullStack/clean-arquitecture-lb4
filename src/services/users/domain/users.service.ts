@@ -4,7 +4,6 @@ import { HttpErrors } from '@loopback/rest';
 import { Users } from '../../../models/users.model';
 import { UsersRepository } from '../../../repositories/users.repository';
 import { ICrudService } from '../../shared/domain/ICrudService.interface';
-import { InvalidParamsError } from '../../shared/domain/value-object/invalid-params.error';
 import { PasswordStrong } from './password-strong';
 
 @injectable({scope: BindingScope.TRANSIENT})
@@ -16,10 +15,6 @@ export class UsersService implements ICrudService<Users> {
       //Valida que la contrase sea fuerte
       // Value Object
       const passwordStrong = PasswordStrong.create(users.password);
-
-      if (passwordStrong instanceof InvalidParamsError) {
-        throw new HttpErrors.BadRequest(passwordStrong.error)
-      }
 
       return await this.usersRepository.create(users);    
     } catch (error) {

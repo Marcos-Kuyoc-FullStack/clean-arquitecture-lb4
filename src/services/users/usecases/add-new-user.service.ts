@@ -1,14 +1,14 @@
 import {injectable, /* inject, */ BindingScope, service, inject} from '@loopback/core';
 import { HttpErrors } from '@loopback/rest';
-import { UsersService } from '../..';
 import { IEmailService } from '../../../adapters/email-service/email-service.interface';
 import { Users } from '../../../models/users.model';
-import { IUserService } from '../domain/users.service.interface';
+import { ICrudService } from '../../shared/domain/ICrudService.interface';
+import { UsersService } from '../domain/users.service';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class AddNewUserService {
   constructor(
-    @service(UsersService) private userService: IUserService,
+    @service(UsersService) private userService: ICrudService<Users>,
     @inject('email-service') public emailService: IEmailService
   ) {}
 
@@ -30,25 +30,6 @@ export class AddNewUserService {
   * Improvement:
   *   Aplicar un rollback del usuario cuando el email no se envie.
   */
-  async executeV1(payload: Omit<Users, 'id'>): Promise<Users> {
-    try {
-      const user = await this.userService.create(payload);
-  
-      if (user) {
-        const email = await this.emailService.send({email: user.email})
-
-        if (!email) {
-          throw new HttpErrors.BadRequest('El servicio de correo no pudo enviar el mensaje al remitente')
-        }
-      }
-
-      return user;
-    } catch (error) {
-      console.log(`[addNewUser] ${error.message}`);
-      throw new HttpErrors.BadRequest(error.message);
-    }
-  }
-
   async execute(payload: Omit<Users, 'id'>): Promise<Users> {
     let user: Users;
 
