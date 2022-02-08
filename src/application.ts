@@ -12,7 +12,7 @@ import {MySequence} from './sequence';
 import { NodeMailerEmail } from './adapters/email-service/nodemailer-email';
 import { SendGridEmail } from './adapters/email-service/sendgrid-email';
 import { SendGridFakeEmail } from './adapters/email-service/sendgrid-fake-email';
-
+import {logMiddleaware} from './middleware/log.middleware';
 export {ApplicationConfig};
 
 export class ApiApplication extends BootMixin(
@@ -20,6 +20,7 @@ export class ApiApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+    this.middleware(logMiddleaware);
 
     // Set up the custom sequence
     this.sequence(MySequence);

@@ -1,4 +1,5 @@
 import {ApplicationConfig, ApiApplication} from './application';
+import logger from './adapters/logger/log-winston'
 
 export * from './application';
 
@@ -8,8 +9,8 @@ export async function main(options: ApplicationConfig = {}) {
   await app.start();
 
   const url = app.restServer.url;
-  console.log(`Server is running at ${url}`);
-  console.log(`Try ${url}/ping`);
+  logger.info(`Server is running at ${url}`);
+  logger.info(`Try ${url}/ping`);
 
   return app;
 }

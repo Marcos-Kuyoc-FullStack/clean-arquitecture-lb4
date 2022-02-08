@@ -36,7 +36,7 @@ export class AddNewUserService {
     try {
       user = await this.userService.create(payload);
     } catch (error) {
-      console.log(`[addNewUser] ${error.message}`);
+      //console.log(`[addNewUser] ${error.message}`);
       throw new HttpErrors.BadRequest(error.message);
     }
 
@@ -48,7 +48,7 @@ export class AddNewUserService {
       }
     } catch (error) {
       await this.rollback(user.id)
-      console.log(`[addNewUser] ${error.message}`);
+      //console.log(`[addNewUser] ${error.message}`);
       throw new HttpErrors.BadRequest(error.message);
     }
 
