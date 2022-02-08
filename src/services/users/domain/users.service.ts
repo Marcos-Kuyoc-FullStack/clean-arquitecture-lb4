@@ -3,7 +3,7 @@ import { Count, Filter, FilterExcludingWhere, repository, Where } from '@loopbac
 import { HttpErrors } from '@loopback/rest';
 import { Users } from '../../../models/users.model';
 import { UsersRepository } from '../../../repositories/users.repository';
-import { InvalidParamError } from '../errors/invalid-param.error';
+import { InvalidParamsError } from '../../shared/domain/value-object/invalid-params.error';
 import { PasswordStrong } from './password-strong';
 import { ICrudService } from './users.service.interface';
 
@@ -17,7 +17,7 @@ export class UsersService implements ICrudService<Users> {
       // Value Object
       const passwordStrong = PasswordStrong.create(users.password);
 
-      if (passwordStrong instanceof InvalidParamError) {
+      if (passwordStrong instanceof InvalidParamsError) {
         throw new HttpErrors.BadRequest(passwordStrong.error)
       }
 

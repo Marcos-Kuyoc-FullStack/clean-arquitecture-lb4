@@ -1,4 +1,4 @@
-export class InvalidParamError {
+export class InvalidParamsError {
   public error: string;
 
   constructor(param: string, message: string) {

@@ -18,10 +18,10 @@ import {
   response,
 } from '@loopback/rest';
 import {Users} from '../models';
-import { ICrudService } from '../services/domain/users/users.service.interface';
-import { UsersService } from '../services/domain/users/users.service';
+import { ICrudService } from '../services/users/domain/users.service.interface';
+import { UsersService } from '../services/users/domain/users.service';
 import { IEmailService } from '../adapters/email-service/email-service.interface';
-import { AddNewUserService } from '../services/usecases/users';
+import { AddNewUserService } from '../services/users/usecases';
 
 export class UsersController {
   constructor(

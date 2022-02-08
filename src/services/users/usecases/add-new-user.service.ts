@@ -3,7 +3,7 @@ import { HttpErrors } from '@loopback/rest';
 import { UsersService } from '../..';
 import { IEmailService } from '../../../adapters/email-service/email-service.interface';
 import { Users } from '../../../models/users.model';
-import { IUserService } from '../../domain/users/users.service.interface';
+import { IUserService } from '../domain/users.service.interface';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class AddNewUserService {

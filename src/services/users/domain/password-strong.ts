@@ -1,7 +1,7 @@
 /** 
  * Value Object: Valida que la contraseña sea fuerte.
 */
-import { InvalidParamError } from "../errors/invalid-param.error";
+import { InvalidParamsError } from "../../shared/domain/value-object/invalid-params.error";
 import { validatePasswordStrong } from "./validator";
 
 export class PasswordStrong {
@@ -12,9 +12,9 @@ export class PasswordStrong {
     Object.freeze(this)
   }
 
-  static create(password: string): PasswordStrong | InvalidParamError {
+  static create(password: string): PasswordStrong | InvalidParamsError {
     if (!validatePasswordStrong(password)) {
-      return new InvalidParamError('password', 'La contraseña es débil');
+      return new InvalidParamsError('password', 'La contraseña es débil');
     }
 
     return new PasswordStrong(password);
