@@ -4,7 +4,7 @@ import logger from '../adapters/logger/log-winston'
 export const logMiddleaware: Middleware = async(ctx, next) => {
   const {request, response} = ctx
   try {
-    logger.info(`Request: ${request.method} ${request.originalUrl}`)
+    logger.info(`${request.method} ${request.originalUrl}`)
     return await next();
   } catch (error) {
     logger.error(`${error}`)
