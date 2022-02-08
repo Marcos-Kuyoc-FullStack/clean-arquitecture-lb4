@@ -31,8 +31,17 @@ export class UsersController {
 
   @post('/users')
   @response(200, {
-    description: 'Users model instance',
+    description: 'Se espera que regrese una instancia de un usuario',
     content: {'application/json': {schema: getModelSchemaRef(Users)}},
+  })
+  @response(400, {
+    description: 'Se espera que devuelva un tipo de error',
+    content: {'application/json': {schema: {
+      type: 'object',
+      properties: {
+        message: {type: 'string'}
+      }
+    }}},
   })
   async create(
     @requestBody({
