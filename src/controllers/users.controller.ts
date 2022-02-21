@@ -1,10 +1,9 @@
-import { service } from '@loopback/core';
+import { inject, service } from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
-  repository,
   Where,
 } from '@loopback/repository';
 import {
@@ -19,18 +18,30 @@ import {
   response,
 } from '@loopback/rest';
 import {Users} from '../models';
-import { IUserInterface } from '../services/domain/users.interface';
-import { UsersService } from '../services/domain/users.service';
+import { UsersService } from '../services/users/domain/users.service';
+import { IEmailService } from '../adapters/email-service/email-service.interface';
+import { AddNewUserService } from '../services/users/usecases';
+import { ICrudService } from '../services/shared/domain/ICrudService.interface';
 
 export class UsersController {
   constructor(
-    @service(UsersService) private userService: IUserInterface
+    @service(UsersService) private userService: ICrudService<Users>,
+    @inject('email-service') public emailService: IEmailService
   ) {}
 
   @post('/users')
   @response(200, {
-    description: 'Users model instance',
+    description: 'Se espera que regrese una instancia de un usuario',
     content: {'application/json': {schema: getModelSchemaRef(Users)}},
+  })
+  @response(400, {
+    description: 'Se espera que devuelva un tipo de error',
+    content: {'application/json': {schema: {
+      type: 'object',
+      properties: {
+        message: {type: 'string'}
+      }
+    }}},
   })
   async create(
     @requestBody({
@@ -45,7 +56,9 @@ export class UsersController {
     })
     users: Omit<Users, 'id'>,
   ): Promise<Users> {
-    return this.userService.create(users);
+    // llamar al caso de uso
+    const newUser = new AddNewUserService(this.userService, this.emailService)
+    return newUser.execute(users);
   }
 
   @get('/users/count')

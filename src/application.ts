@@ -9,7 +9,10 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
-
+import { NodeMailerEmail } from './adapters/email-service/nodemailer-email';
+import { SendGridEmail } from './adapters/email-service/sendgrid-email';
+import { SendGridFakeEmail } from './adapters/email-service/sendgrid-fake-email';
+import {logMiddleaware} from './middleware/log.middleware';
 export {ApplicationConfig};
 
 export class ApiApplication extends BootMixin(
@@ -17,6 +20,7 @@ export class ApiApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+    this.middleware(logMiddleaware);
 
     // Set up the custom sequence
     this.sequence(MySequence);
@@ -38,7 +42,15 @@ export class ApiApplication extends BootMixin(
         dirs: ['controllers'],
         extensions: ['.controller.js'],
         nested: true,
-      },
+      }
     };
+
+    // Inyectar dependencias
+    if (process.env.ENTORNO === 'production') {
+      //this.bind('email-service').toClass(NodeMailerEmail);
+      this.bind('email-service').toClass(SendGridEmail);
+    } else {
+      this.bind('email-service').toClass(SendGridFakeEmail);
+    }
   }
 }
