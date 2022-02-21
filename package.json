@@ -23,6 +23,7 @@
     "eslint:fix": "yarn run eslint --fix",
     "pretest": "yarn run rebuild",
     "posttest": "yarn run lint",
+    "test": "yarn test:acceptance",
     "test:acceptance": "npm run clean && npm run build && jest -c ./jest.acceptance.json",
     "docker:build": "docker build -t api .",
     "docker:run": "docker run -p 3000:3000 -d api",
@@ -34,7 +35,8 @@
     "start": "node -r source-map-support/register .",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
     "cypress:open": "cypress open",
-    "rebuild": "yarn run clean && yarn run build"
+    "rebuild": "yarn run clean && yarn run build",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -70,6 +72,7 @@
     "jest": "^27.5.1",
     "source-map-support": "^0.5.21",
     "ts-jest": "^27.1.3",
-    "typescript": "~4.5.4"
+    "typescript": "~4.5.4",
+    "husky": "^7.0.0"
   }
 }

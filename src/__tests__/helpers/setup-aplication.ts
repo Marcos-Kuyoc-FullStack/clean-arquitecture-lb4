@@ -1,14 +1,12 @@
-import {
-  givenHttpServerConfig,
-} from '@loopback/testlab';
-import { ApiApplication } from '../../application';
+import {givenHttpServerConfig} from '@loopback/testlab';
+import {ApiApplication} from '../../application';
 //import { testdb } from './testdb.datasource';
 
 export const setupApplication = async () => {
   const restConfig = givenHttpServerConfig({
     host: 'localhost',
     basePath: '/api',
-    port: 9000
+    port: 9000,
   });
 
   const app = new ApiApplication({rest: restConfig});

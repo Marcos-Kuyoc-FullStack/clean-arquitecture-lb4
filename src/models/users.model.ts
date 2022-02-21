@@ -20,7 +20,7 @@ export class Users extends Entity {
     type: 'string',
     required: true,
     index: {
-      unique: true
+      unique: true,
     },
     jsonSchema: {
       type: 'string',
@@ -32,7 +32,7 @@ export class Users extends Entity {
         minLength: 'Email should be at least 5 characters.',
         maxLength: 'Email should not exceed 50 characters.',
         format: 'El formato no coincide.',
-      }
+      },
     },
   })
   email: string;

@@ -1,5 +1,5 @@
 import {ApplicationConfig, ApiApplication} from './application';
-import logger from './adapters/logger/log-winston'
+import logger from './adapters/logger/log-winston';
 
 export * from './application';
 
