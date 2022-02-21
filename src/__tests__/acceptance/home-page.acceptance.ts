@@ -1,31 +1,31 @@
 import {Client} from '@loopback/testlab';
 import {ApiApplication} from '../..';
-import {setupApplication} from './test-helper';
+import {setupApplication} from '../helpers/test-helper';
 
 describe('HomePage', () => {
   let app: ApiApplication;
   let client: Client;
 
-  before('setupApplication', async () => {
+  beforeEach(async () => {
     ({app, client} = await setupApplication());
   });
 
-  after(async () => {
+  afterEach(async () => {
     await app.stop();
   });
 
   it('exposes a default home page', async () => {
     await client
-      .get('/')
-      .expect(200)
+      .get('/api')
+      .expect(301)
       .expect('Content-Type', /text\/html/);
   });
 
   it('exposes self-hosted explorer', async () => {
-    await client
-      .get('/explorer/')
-      .expect(200)
-      .expect('Content-Type', /text\/html/)
-      .expect(/<title>LoopBack API Explorer/);
+    const explorer = await client.get('/api/explorer/');
+
+    expect(explorer.status).toEqual(200);
+    expect(explorer.header['content-type']).toEqual('text/html; charset=utf-8');
+    expect(explorer.text).toEqual(expect.any(String));
   });
 });

@@ -5,7 +5,7 @@ const config = {
   name: 'test',
   connector: 'memory',
   localStorage: '',
-  file: ''
+  file: '',
 };
 
 // Observe application's life cycle to disconnect the datasource when
@@ -13,8 +13,10 @@ const config = {
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
 // Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class TestDataSource extends juggler.DataSource
-  implements LifeCycleObserver {
+export class TestDataSource
+  extends juggler.DataSource
+  implements LifeCycleObserver
+{
   static dataSourceName = 'test';
   static readonly defaultConfig = config;
 

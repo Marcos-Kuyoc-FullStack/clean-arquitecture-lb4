@@ -1,4 +1,4 @@
-import { inject, service } from '@loopback/core';
+import {inject, service} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -18,15 +18,15 @@ import {
   response,
 } from '@loopback/rest';
 import {Users} from '../models';
-import { UsersService } from '../services/users/domain/users.service';
-import { IEmailService } from '../adapters/email-service/email-service.interface';
-import { AddNewUserService } from '../services/users/usecases';
-import { ICrudService } from '../services/shared/domain/ICrudService.interface';
+import {UsersService} from '../services/users/domain/users.service';
+import {IEmailService} from '../adapters/email-service/email-service.interface';
+import {AddNewUserService} from '../services/users/usecases';
+import {ICrudService} from '../services/shared/domain/ICrudService.interface';
 
 export class UsersController {
   constructor(
     @service(UsersService) private userService: ICrudService<Users>,
-    @inject('email-service') public emailService: IEmailService
+    @inject('email-service') public emailService: IEmailService,
   ) {}
 
   @post('/users')
@@ -36,12 +36,16 @@ export class UsersController {
   })
   @response(400, {
     description: 'Se espera que devuelva un tipo de error',
-    content: {'application/json': {schema: {
-      type: 'object',
-      properties: {
-        message: {type: 'string'}
-      }
-    }}},
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            message: {type: 'string'},
+          },
+        },
+      },
+    },
   })
   async create(
     @requestBody({
@@ -57,7 +61,7 @@ export class UsersController {
     users: Omit<Users, 'id'>,
   ): Promise<Users> {
     // llamar al caso de uso
-    const newUser = new AddNewUserService(this.userService, this.emailService)
+    const newUser = new AddNewUserService(this.userService, this.emailService);
     return newUser.execute(users);
   }
 
@@ -66,9 +70,7 @@ export class UsersController {
     description: 'Users model count',
     content: {'application/json': {schema: CountSchema}},
   })
-  async count(
-    @param.where(Users) where?: Where<Users>,
-  ): Promise<Count> {
+  async count(@param.where(Users) where?: Where<Users>): Promise<Count> {
     return this.userService.count(where);
   }
 
@@ -84,9 +86,7 @@ export class UsersController {
       },
     },
   })
-  async find(
-    @param.filter(Users) filter?: Filter<Users>,
-  ): Promise<Users[]> {
+  async find(@param.filter(Users) filter?: Filter<Users>): Promise<Users[]> {
     return this.userService.find(filter);
   }
 
@@ -120,7 +120,8 @@ export class UsersController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Users, {exclude: 'where'}) filter?: FilterExcludingWhere<Users>
+    @param.filter(Users, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Users>,
   ): Promise<Users> {
     return this.userService.findById(id, filter);
   }

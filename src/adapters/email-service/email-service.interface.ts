@@ -3,5 +3,5 @@ export interface IPayloadEmail {
 }
 
 export interface IEmailService {
-  send(payload: IPayloadEmail): Promise<boolean>
+  send(payload: IPayloadEmail): Promise<boolean>;
 }

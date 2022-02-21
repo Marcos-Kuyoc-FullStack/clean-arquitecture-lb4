@@ -1,0 +1,11 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "verbose": true,
+  "silent": true,
+  "coverageDirectory": "./coverage",
+  "testMatch": ["**/__tests__/acceptance/**/*.js"],
+  "testPathIgnorePatterns": ["/node_modules/"],
+  "resetMocks": true,
+  "clearMocks": true
+}

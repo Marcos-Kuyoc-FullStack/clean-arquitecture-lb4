@@ -1,21 +1,26 @@
-import {Client, expect} from '@loopback/testlab';
+import {Client} from '@loopback/testlab';
 import {ApiApplication} from '../..';
-import {setupApplication} from './test-helper';
+import {setupApplication} from '../helpers/test-helper';
 
 describe('PingController', () => {
   let app: ApiApplication;
   let client: Client;
 
-  before('setupApplication', async () => {
+  beforeEach(async () => {
     ({app, client} = await setupApplication());
   });
 
-  after(async () => {
+  afterEach(async () => {
     await app.stop();
   });
 
-  it('invokes GET /ping', async () => {
-    const res = await client.get('/ping?msg=world').expect(200);
-    expect(res.body).to.containEql({greeting: 'Hello from LoopBack'});
+  test('invokes GET /ping', async () => {
+    const res = await client.get('/api/ping?msg=world');
+
+    expect(res.status).toEqual(200);
+    expect(res.body).toBeDefined();
+    expect(res.body).toHaveProperty('greeting');
+    expect(res.body.greeting).toEqual(expect.any(String));
+    expect(res.body.greeting).toEqual('Hello from LoopBack');
   });
 });
