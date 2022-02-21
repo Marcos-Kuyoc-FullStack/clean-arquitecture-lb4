@@ -4,14 +4,12 @@ import {
   givenHttpServerConfig,
   Client,
 } from '@loopback/testlab';
+//import { testdb } from './testdb.datasource';
 
 export async function setupApplication(): Promise<AppWithClient> {
   const restConfig = givenHttpServerConfig({
-    // Customize the server configuration here.
-    // Empty values (undefined, '') will be ignored by the helper.
-    //
-    // host: process.env.HOST,
-    // port: +process.env.PORT,
+    host: 'localhost',
+    basePath: '/api',
   });
 
   const app = new ApiApplication({
@@ -19,6 +17,7 @@ export async function setupApplication(): Promise<AppWithClient> {
   });
 
   await app.boot();
+  //app.dataSource(testdb);
   await app.start();
 
   const client = createRestAppClient(app);

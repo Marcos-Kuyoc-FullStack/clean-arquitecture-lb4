@@ -15,7 +15,7 @@ describe('PingController', () => {
   });
 
   test('invokes GET /ping', async () => {
-    const res = await client.get('/ping?msg=world');
+    const res = await client.get('/api/ping?msg=world');
 
     expect(res.status).toEqual(200);
     expect(res.body).toBeDefined();

@@ -16,13 +16,13 @@ describe('HomePage', () => {
 
   it('exposes a default home page', async () => {
     await client
-      .get('/')
-      .expect(200)
+      .get('/api')
+      .expect(301)
       .expect('Content-Type', /text\/html/);
   });
 
   it('exposes self-hosted explorer', async () => {
-    const explorer = await client.get('/explorer/');
+    const explorer = await client.get('/api/explorer/');
 
     expect(explorer.status).toEqual(200);
     expect(explorer.header['content-type']).toEqual('text/html; charset=utf-8');
