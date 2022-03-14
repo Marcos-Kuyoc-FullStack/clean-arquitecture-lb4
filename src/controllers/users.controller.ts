@@ -20,7 +20,7 @@ import {
 import {Users} from '../models';
 import {UsersService} from '../services/users/domain/users.service';
 import {IEmailService} from '../adapters/email-service/email-service.interface';
-import {AddNewUserService} from '../services/users/usecases';
+import {AddNewUserService} from '../services/users/use-cases';
 import {ICrudService} from '../services/shared/domain/ICrudService.interface';
 
 export class UsersController {
