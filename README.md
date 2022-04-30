@@ -213,16 +213,16 @@ class UseCase {
 
 class ExternalServiceSendToEmailSendgrid implements IExternalService {
 	doExternalTask() {
-    // more task
-    // sendgrid
+		// more task
+		// sendgrid
 		return true;
 	}
 }
 
 class ExternalServiceSendToEmailMailcheap implements IExternalService {
 	doExternalTask() {
-    // more task
-    // mailcheap | otro servicio de correo
+		// more task
+		// mailcheap | otro servicio de correo
 		return true;
 	}
 }
@@ -270,8 +270,8 @@ describe('Pruebas unitarias - Validar que la contraseña sea lo suficientemente 
 			validPassword(password);
 		} catch(error) {
 			//Assert
-	    expect(error).toBeDefined();
-      expect(error).toHaveProperty('message', 'La constraseña no es valida');
+			expect(error).toBeDefined();
+			expect(error).toHaveProperty('message', 'La constraseña no es valida');
 		}
 	})
 
@@ -283,17 +283,17 @@ describe('Pruebas unitarias - Validar que la contraseña sea lo suficientemente 
 		const verifyPassword = validPassword(password);
 
 		//Assert
-    expect(verifyPassword).toBeDefined();
-    expect(verifyPassword).toEqual(expect.any(String));
+		expect(verifyPassword).toBeDefined();
+		expect(verifyPassword).toEqual(expect.any(String));
 		expect(verifiPassword.length).toBeGreaterThanOrEqual(8)
 		expect(verifyPassword).toMatch(/^[a-z0-9_-]{8,18}$/)
 	})
 })
 
 validPassword = (password: string) => {
-  if (password === 'pa55') {
+	if (password === 'pa55') {
 		throw new Error('La constraseña no es valida')
-  }
+	}
 
 	// TODO
 	return 'pa55swordDeprueba';
@@ -316,8 +316,8 @@ describe('Prueba Unitaria - Se prueba la clase UseCase que contiene una dependen
 	test('Se espera que el método doSomenthing regrese un string válido', async() => {
 		//Arrange
 		const stubExternalService = createStupInstance(ExternalService);
-    const doExternalTask = stubExternalService.stubs.doExternalTask as sinon.SinonStub;
-	  doExternalTask.resolves('Doing external task...')
+		const doExternalTask = stubExternalService.stubs.doExternalTask as sinon.SinonStub;
+		doExternalTask.resolves('Doing external task...')
 
 		//Act
 		const client = new UseCase(stubExternalService);
@@ -377,31 +377,31 @@ Test Integración - Repositorio
 
 ```jsx
 import {
-  givenEmptyDatabase,
-  givenCategory,
+	givenEmptyDatabase,
+	givenCategory,
 } from '../../helpers/database.helpers';
 import {CategoryRepository} from '../../../repositories';
 import {expect} from '@loopback/testlab';
 import {testdb} from '../../fixtures/datasources/testdb.datasource';
 
 describe('CategoryRepository (integration)', () => {
-  beforeEach(givenEmptyDatabase);
+	beforeEach(givenEmptyDatabase);
 
-  describe('findByName(name)', () => {
-    test('Se espera que regrese la categoria correcta.', async () => {
+	describe('findByName(name)', () => {
+		test('Se espera que regrese la categoria correcta.', async () => {
 			//Arrange
-      const category = {name: 'estaciones'};
+			const category = {name: 'estaciones'};
 
 			//Act
 			const repository = new CategoryRepository(testdb);
-      const result = await repository.findByName('estaciones');
+			const result = await repository.findByName('estaciones');
 
 			// Asserts
-      expect(result).toEqual(category);
+			expect(result).toEqual(category);
 			expect(result.name).toEqual(expect.any(String));
-      expect(result.name).toEqual('estaciones');
-    });
-  });
+			expect(result.name).toEqual('estaciones');
+		});
+	});
 });
 ```
 
@@ -416,23 +416,23 @@ import {ProductService} from '../../../services';
 import {testdb} from '../../fixtures/datasources/testdb.datasource';
 
 describe('ProductController (integration)', () => {
-  beforeEach(givenEmptyDatabase);
+	beforeEach(givenEmptyDatabase);
 
-  describe('getDetails()', () => {
-    test('Se espera, recuperar los detalles del producto dado', async () => {
+	describe('getDetails()', () => {
+		test('Se espera, recuperar los detalles del producto dado', async () => {
 			//Arrange
-      const pencil = {name: 'Pencil', slug: 'pencil'};
+			const pencil = {name: 'Pencil', slug: 'pencil'};
 			const productRepository = new ProductRepository(testdb);
 			const productService = new ProductService(productRepository);
-      const controller = new ProductController(productService);
+			const controller = new ProductController(productService);
 
 			//Act
-      const details = await controller.getDetails('pencil');
+			const details = await controller.getDetails('pencil');
 
 			//Asserts
-      expect(details.slug).toContainEqual('pencil');
-    });
-  });
+		expect(details.slug).toContainEqual('pencil');
+		});
+	});
 });
 ```
 
@@ -454,26 +454,26 @@ import {setupApplication} from '../helpers/setupApplication';
 import {loadData, emptyDatabase} from '../helpers/'
 
 describe('Ping (Aceptacion)', () => {
-  let app: ApiApplication;
-  let client: Client;
+	let app: ApiApplication;
+	let client: Client;
 
-  beforeAll(async () => {
-    ({app, client} = await setupApplication());
+	beforeAll(async () => {
+		({app, client} = await setupApplication());
 		await loadData();
-  });
+	});
 
-  afterAll(async () => {
-    await app.stop();
+	afterAll(async () => {
+		await app.stop();
 		await emptyDatabase();
-  });
+	});
 
-  test('exposes a default home page', async () => {
-    const response = await client.get('/api/ping');
+	test('exposes a default home page', async () => {
+		const response = await client.get('/api/ping');
 
-    expect(response.status).toEqual(200);
-    expect(response.text).toBeDefined();
-    expect(response.text).toEqual(expect.any(String));
-  });
+		expect(response.status).toEqual(200);
+		expect(response.text).toBeDefined();
+		expect(response.text).toEqual(expect.any(String));
+	});
 });
 ```
 
